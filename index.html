@@ -1,1 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Arena Rivals - 1v1 Shooter</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Main Menu Screen -->
+    <div id="menu-screen" class="screen active">
+        <div class="menu-container">
+            <h1 class="game-title">ARENA<span class="accent">RIVALS</span></h1>
+            <p class="subtitle">1v1 Top-Down Shooter</p>
+            
+            <div class="menu-buttons">
+                <button id="play-btn" class="btn btn-primary">
+                    <span class="btn-icon">⚔️</span>
+                    PLAY
+                </button>
+                <button id="how-to-play-btn" class="btn btn-secondary">
+                    <span class="btn-icon">📖</span>
+                    HOW TO PLAY
+                </button>
+                <button id="settings-btn" class="btn btn-secondary">
+                    <span class="btn-icon">⚙️</span>
+                    SETTINGS
+                </button>
+            </div>
+            
+            <div class="difficulty-select">
+                <p>AI Difficulty</p>
+                <div class="difficulty-buttons">
+                    <button class="diff-btn" data-diff="easy">EASY</button>
+                    <button class="diff-btn active" data-diff="medium">MEDIUM</button>
+                    <button class="diff-btn" data-diff="hard">HARD</button>
+                    <button class="diff-btn" data-diff="insane">INSANE</button>
+                </div>
+            </div>
+            
+            <div class="stats-preview">
+                <div class="stat">
+                    <span class="stat-value" id="menu-wins">0</span>
+                    <span class="stat-label">Wins</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="menu-losses">0</span>
+                    <span class="stat-label">Losses</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="menu-streak">0</span>
+                    <span class="stat-label">Best Streak</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- How To Play Screen -->
+    <div id="tutorial-screen" class="screen">
+        <div class="tutorial-container">
+            <h2>HOW TO PLAY</h2>
+            <div class="tutorial-content">
+                <div class="tutorial-section">
+                    <h3>🎮 Controls</h3>
+                    <p><strong>Mobile:</strong> Left joystick to move, Right joystick to aim & shoot</p>
+                    <p><strong>Desktop:</strong> WASD to move, Mouse to aim, Click to shoot</p>
+                </div>
+                <div class="tutorial-section">
+                    <h3>🎯 Objective</h3>
+                    <p>Eliminate your opponent before they eliminate you! First to win 5 rounds wins the match.</p>
+                </div>
+                <div class="tutorial-section">
+                    <h3>⬆️ Upgrades</h3>
+                    <p>After each round, choose an upgrade to enhance your abilities!</p>
+                </div>
+                <div class="tutorial-section">
+                    <h3>💡 Tips</h3>
+                    <p>• Use cover and obstacles strategically</p>
+                    <p>• Dash to dodge enemy fire (tap movement joystick twice)</p>
+                    <p>• Pick up power-ups that spawn in the arena</p>
+                </div>
+            </div>
+            <button id="back-tutorial-btn" class="btn btn-primary">BACK</button>
+        </div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="settings-screen" class="screen">
+        <div class="settings-container">
+            <h2>SETTINGS</h2>
+            <div class="settings-content">
+                <div class="setting-row">
+                    <span>Sound Effects</span>
+                    <label class="toggle">
+                        <input type="checkbox" id="sfx-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <span>Music</span>
+                    <label class="toggle">
+                        <input type="checkbox" id="music-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <span>Vibration</span>
+                    <label class="toggle">
+                        <input type="checkbox" id="vibration-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <span>Show FPS</span>
+                    <label class="toggle">
+                        <input type="checkbox" id="fps-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <button id="back-settings-btn" class="btn btn-primary">BACK</button>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <!-- Game HUD -->
+        <div id="game-hud">
+            <div class="hud-top">
+                <div class="player-info player-1-info">
+                    <div class="player-avatar">YOU</div>
+                    <div class="player-stats">
+                        <div class="health-bar">
+                            <div class="health-fill" id="player-health"></div>
+                            <span class="health-text" id="player-health-text">100</span>
+                        </div>
+                        <div class="ammo-display">
+                            <span id="player-ammo">∞</span>
+                        </div>
+                    </div>
+                    <div class="round-wins" id="player-wins">
+                        <span class="win-dot"></span>
+                        <span class="win-dot"></span>
+                        <span class="win-dot"></span>
+                        <span class="win-dot"></span>
+                        <span class="win-dot"></span>
+                    </div>
+                </div>
+                
+                <div class="round-indicator">
+                    <span id="round-number">ROUND 1</span>
+                    <span id="round-timer">60</span>
+                </div>
+                
+                <div class="player-info player-2-info">
+                    <div class="round-wins" id="ai-wins">
+                        <span class="win-dot"></span>
+                        <span class="win-dot"></span>
+                        <span class="win-dot"></span>
+                        <span class="win-dot"></span>
+                        <span class="win-dot"></span>
+                    </div>
+                    <div class="player-stats">
+                        <div class="health-bar enemy">
+                            <div class="health-fill" id="ai-health"></div>
+                            <span class="health-text" id="ai-health-text">100</span>
+                        </div>
+                    </div>
+                    <div class="player-avatar enemy">AI</div>
+                </div>
+            </div>
+            
+            <div id="fps-display" class="hidden">FPS: 60</div>
+            
+            <button id="pause-btn" class="pause-button">⏸️</button>
+        </div>
+
+        <!-- Game Canvas -->
+        <canvas id="game-canvas"></canvas>
+
+        <!-- Mobile Controls -->
+        <div id="mobile-controls">
+            <div class="joystick-container left" id="move-joystick">
+                <div class="joystick-base">
+                    <div class="joystick-stick"></div>
+                </div>
+            </div>
+            <div class="joystick-container right" id="aim-joystick">
+                <div class="joystick-base">
+                    <div class="joystick-stick"></div>
+                </div>
+            </div>
+            <button id="dash-btn" class="action-button">DASH</button>
+            <button id="special-btn" class="action-button special">SPECIAL</button>
+        </div>
+    </div>
+
+    <!-- Pause Menu -->
+    <div id="pause-menu" class="overlay hidden">
+        <div class="pause-container">
+            <h2>PAUSED</h2>
+            <button id="resume-btn" class="btn btn-primary">RESUME</button>
+            <button id="restart-btn" class="btn btn-secondary">RESTART</button>
+            <button id="quit-btn" class="btn btn-danger">QUIT TO MENU</button>
+        </div>
+    </div>
+
+    <!-- Round End Screen -->
+    <div id="round-end" class="overlay hidden">
+        <div class="round-end-container">
+            <h2 id="round-result">ROUND WON!</h2>
+            <p id="round-score">Player 3 - 2 AI</p>
+            <div id="upgrade-selection" class="upgrade-grid">
+                <!-- Upgrades will be inserted here -->
+            </div>
+            <button id="next-round-btn" class="btn btn-primary">NEXT ROUND</button>
+        </div>
+    </div>
+
+    <!-- Match End Screen -->
+    <div id="match-end" class="overlay hidden">
+        <div class="match-end-container">
+            <h2 id="match-result">VICTORY!</h2>
+            <div class="match-stats">
+                <div class="stat-row">
+                    <span>Damage Dealt</span>
+                    <span id="stat-damage">0</span>
+                </div>
+                <div class="stat-row">
+                    <span>Accuracy</span>
+                    <span id="stat-accuracy">0%</span>
+                </div>
+                <div class="stat-row">
+                    <span>Rounds Won</span>
+                    <span id="stat-rounds">0</span>
+                </div>
+                <div class="stat-row">
+                    <span>Time Played</span>
+                    <span id="stat-time">0:00</span>
+                </div>
+            </div>
+            <div class="match-buttons">
+                <button id="rematch-btn" class="btn btn-primary">REMATCH</button>
+                <button id="menu-btn" class="btn btn-secondary">MAIN MENU</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Countdown Overlay -->
+    <div id="countdown-overlay" class="overlay hidden">
+        <div class="countdown-number">3</div>
+    </div>
+
+    <!-- Kill Feed -->
+    <div id="kill-feed"></div>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/effects.js"></script>
+    <script src="js/weapons.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/powerups.js"></script>
+    <script src="js/upgrades.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
