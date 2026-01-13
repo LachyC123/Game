@@ -1,3 +1,4 @@
+alert("game.js loaded");
 // Main Game Engine
 
 class Game {
